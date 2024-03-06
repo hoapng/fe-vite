@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Row, Col } from "antd";
+import { Table, Row, Col, Button } from "antd";
 import InputSearch from "./InputSearch";
 import { callFetchListUser } from "../../services/api";
 
@@ -10,17 +10,23 @@ const UserTable = () => {
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
 
+  const [filter, setFilter] = useState("");
+  const [sortQuery, setSortQuery] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchUser();
-  }, [current, pageSize]);
+  }, [current, pageSize, filter, sortQuery]);
 
-  const fetchUser = async (searchFilter) => {
+  const fetchUser = async () => {
     setIsLoading(true);
     let query = `current=${current}&pageSize=${pageSize}`;
-    if (searchFilter) {
-      query += `&${searchFilter}`;
+    if (filter) {
+      query += `&${filter}`;
+    }
+    if (sortQuery) {
+      query += `&${sortQuery}`;
     }
     const res = await callFetchListUser(query);
     if (res && res.data) {
@@ -61,37 +67,6 @@ const UserTable = () => {
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      chinese: 98,
-      math: 60,
-      english: 70,
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      chinese: 98,
-      math: 66,
-      english: 89,
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      chinese: 98,
-      math: 90,
-      english: 70,
-    },
-    {
-      key: "4",
-      name: "Jim Red",
-      chinese: 88,
-      math: 99,
-      english: 89,
-    },
-  ];
-
   const onChange = (pagination, filters, sorter, extra) => {
     if (pagination && pagination.current !== current) {
       setCurrent(pagination.current);
@@ -101,20 +76,32 @@ const UserTable = () => {
       setCurrent(1);
     }
 
+    if (sorter && sorter.field) {
+      const q =
+        sorter.order === "ascend"
+          ? `&sort=${sorter.field}`
+          : `&sort=-${sorter.field}`;
+      setSortQuery(q);
+    }
+
     console.log("params", pagination, filters, sorter, extra);
   };
 
   const handleSearch = (query) => {
-    fetchUser(query);
+    setFilter(query);
   };
 
   return (
     <>
       <Row gutter={[20, 20]}>
         <Col span={24}>
-          <InputSearch handleSearch={handleSearch} />
+          <InputSearch handleSearch={handleSearch} setFilter={setFilter} />
         </Col>
         <Col span={24}>
+          {/* <Button type="ghost" onClick={
+            setFilter('')
+            setSortQuery('')
+          }></></Button> */}
           <Table
             className="def"
             columns={columns}
