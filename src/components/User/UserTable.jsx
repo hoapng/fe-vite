@@ -3,6 +3,7 @@ import { Table, Row, Col, Button } from "antd";
 import InputSearch from "./InputSearch";
 import { callFetchListUser } from "../../services/api";
 import UserViewDetail from "./UserViewDetail";
+import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 
 // https://stackblitz.com/run?file=demo.tsx
 const UserTable = () => {
@@ -108,6 +109,31 @@ const UserTable = () => {
     setFilter(query);
   };
 
+  const renderHeader = () => {
+    return (
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <span>List users</span>
+        <span style={{ display: "flex", gap: 15 }}>
+          <Button>Export</Button>
+          <Button>Import</Button>
+          <Button icon={<PlusOutlined />} type="primary">
+            Thêm
+          </Button>
+
+          <Button
+            type="ghost"
+            onClick={() => {
+              setFilter("");
+              setSortQuery("");
+            }}
+          >
+            <ReloadOutlined />
+          </Button>
+        </span>
+      </div>
+    );
+  };
+
   return (
     <>
       <Row gutter={[20, 20]}>
@@ -115,11 +141,9 @@ const UserTable = () => {
           <InputSearch handleSearch={handleSearch} setFilter={setFilter} />
         </Col>
         <Col span={24}>
-          {/* <Button type="ghost" onClick={
-            setFilter('')
-            setSortQuery('')
-          }></></Button> */}
           <Table
+            title={renderHeader}
+            loading={isLoading}
             className="def"
             columns={columns}
             dataSource={listUser}
@@ -129,6 +153,13 @@ const UserTable = () => {
               pageSize: pageSize,
               showSizeChanger: true,
               total: total,
+              showTotal: (total, range) => {
+                return (
+                  <div>
+                    {range[0]}-{range[1]}/{total}
+                  </div>
+                );
+              },
             }}
           />
         </Col>
