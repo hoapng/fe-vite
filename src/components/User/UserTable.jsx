@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Row, Col, Button } from "antd";
 import InputSearch from "./InputSearch";
 import { callFetchListUser } from "../../services/api";
+import UserViewDetail from "./UserViewDetail";
 
 // https://stackblitz.com/run?file=demo.tsx
 const UserTable = () => {
@@ -10,10 +11,13 @@ const UserTable = () => {
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [filter, setFilter] = useState("");
   const [sortQuery, setSortQuery] = useState("");
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [dataViewDetail, setDataViewDetail] = useState({});
+  const [openViewDetail, setOpenViewDetail] = useState(false);
 
   useEffect(() => {
     fetchUser();
@@ -39,6 +43,19 @@ const UserTable = () => {
     {
       title: "_id",
       dataIndex: "_id",
+      render: (text, record, index) => {
+        return (
+          <a
+            href="#"
+            onClick={() => {
+              setDataViewDetail(record);
+              setOpenViewDetail(true);
+            }}
+          >
+            {record._id}
+          </a>
+        );
+      },
     },
     {
       title: "fullName",
@@ -116,6 +133,12 @@ const UserTable = () => {
           />
         </Col>
       </Row>
+      <UserViewDetail
+        openViewDetail={openViewDetail}
+        setOpenViewDetail={setOpenViewDetail}
+        dataViewDetail={dataViewDetail}
+        setDataViewDetail={setDataViewDetail}
+      />
     </>
   );
 };
