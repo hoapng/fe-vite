@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Button, Divider, Form, Modal, message, notification } from "antd";
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  Modal,
+  message,
+  notification,
+} from "antd";
 import { callCreateAUser } from "../../services/api";
 
 const UserModalCreate = (props) => {
@@ -49,7 +57,7 @@ const UserModalCreate = (props) => {
             name="fullName"
             rules={[{ required: true, message: "Họ tên không được để trống!" }]}
           >
-            {/* <Input /> */}
+            <Input />
           </Form.Item>
 
           <Form.Item
@@ -58,7 +66,7 @@ const UserModalCreate = (props) => {
             name="email"
             rules={[{ required: true, message: "Email không được để trống!" }]}
           >
-            {/* <Input /> */}
+            <Input />
           </Form.Item>
 
           <Form.Item
@@ -69,7 +77,7 @@ const UserModalCreate = (props) => {
               { required: true, message: "Mật khẩu không được để trống!" },
             ]}
           >
-            {/* <Input.Password /> */}
+            <Input.Password />
           </Form.Item>
           <Form.Item
             labelCol={{ span: 24 }} //whole column
@@ -79,7 +87,7 @@ const UserModalCreate = (props) => {
               { required: true, message: "Số điện thoại không được để trống!" },
             ]}
           >
-            {/* <Input /> */}
+            <Input />
           </Form.Item>
         </Form>
       </Modal>
