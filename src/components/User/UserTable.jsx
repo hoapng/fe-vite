@@ -4,6 +4,7 @@ import InputSearch from "./InputSearch";
 import { callFetchListUser } from "../../services/api";
 import UserViewDetail from "./UserViewDetail";
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
+import UserModalCreate from "./UserModalCreate";
 
 // https://stackblitz.com/run?file=demo.tsx
 const UserTable = () => {
@@ -19,6 +20,8 @@ const UserTable = () => {
 
   const [dataViewDetail, setDataViewDetail] = useState({});
   const [openViewDetail, setOpenViewDetail] = useState(false);
+
+  const [openModalCreate, setOpenModalCreate] = useState(false);
 
   useEffect(() => {
     fetchUser();
@@ -116,7 +119,13 @@ const UserTable = () => {
         <span style={{ display: "flex", gap: 15 }}>
           <Button>Export</Button>
           <Button>Import</Button>
-          <Button icon={<PlusOutlined />} type="primary">
+          <Button
+            icon={<PlusOutlined />}
+            type="primary"
+            onClick={() => {
+              setOpenModalCreate(true);
+            }}
+          >
             Thêm
           </Button>
 
@@ -169,6 +178,11 @@ const UserTable = () => {
         setOpenViewDetail={setOpenViewDetail}
         dataViewDetail={dataViewDetail}
         setDataViewDetail={setDataViewDetail}
+      />
+      <UserModalCreate
+        fetchUser={fetchUser}
+        openModalCreate={openModalCreate}
+        setOpenModalCreate={setOpenModalCreate}
       />
     </>
   );
