@@ -5,6 +5,7 @@ import { callFetchListUser } from "../../services/api";
 import UserViewDetail from "./UserViewDetail";
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import UserModalCreate from "./UserModalCreate";
+import UserImport from "./data/UserImport";
 
 // https://stackblitz.com/run?file=demo.tsx
 const UserTable = () => {
@@ -22,6 +23,8 @@ const UserTable = () => {
   const [openViewDetail, setOpenViewDetail] = useState(false);
 
   const [openModalCreate, setOpenModalCreate] = useState(false);
+
+  const [openModalImport, setOpenModalImport] = useState(false);
 
   useEffect(() => {
     fetchUser();
@@ -118,7 +121,14 @@ const UserTable = () => {
         <span>List users</span>
         <span style={{ display: "flex", gap: 15 }}>
           <Button>Export</Button>
-          <Button>Import</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              setOpenModalImport(true);
+            }}
+          >
+            Import
+          </Button>
           <Button
             icon={<PlusOutlined />}
             type="primary"
@@ -183,6 +193,10 @@ const UserTable = () => {
         fetchUser={fetchUser}
         openModalCreate={openModalCreate}
         setOpenModalCreate={setOpenModalCreate}
+      />
+      <UserImport
+        openModalImport={openModalImport}
+        setOpenModalImport={setOpenModalImport}
       />
     </>
   );
