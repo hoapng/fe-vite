@@ -195,6 +195,7 @@ const UserTable = () => {
         setOpenModalCreate={setOpenModalCreate}
       />
       <UserImport
+        fetchUser={fetchUser}
         openModalImport={openModalImport}
         setOpenModalImport={setOpenModalImport}
       />

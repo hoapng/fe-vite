@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
-import { message, Modal, Table, Upload } from "antd";
+import { message, Modal, notification, Table, Upload } from "antd";
 import * as XLSX from "xlsx";
 import { json } from "react-router-dom";
+import { callBulkCreateUser } from "../../../services/api";
 
 const { Dragger } = Upload;
 
 const UserImport = (props) => {
-  const { openModalImport, setOpenModalImport } = props;
+  const { openModalImport, setOpenModalImport, fetchUser } = props;
 
   const [dataExcel, setDataExcel] = useState([]);
 
@@ -47,7 +48,7 @@ const UserImport = (props) => {
               header: ["fullName", "email", "phone"],
               range: 1, // skip row header
             });
-            console.log(">>>json", json);
+            // console.log(">>>json", json);
             if (json && json.length > 0) setDataExcel(json);
           };
         }
@@ -60,17 +61,43 @@ const UserImport = (props) => {
       console.log("Dropped files", e.dataTransfer.files);
     },
   };
+
+  const handleSubmit = async () => {
+    const data = dataExcel.map((item) => {
+      item.password = "123456";
+      return item;
+    });
+    console.log(">>>data", data);
+    const res = await callBulkCreateUser(data);
+    if (res.data) {
+      notification.success({
+        description: `Success ${res.data.countSuccess}, Error ${res.data.countError}`,
+        message: "Success",
+      });
+      setDataExcel([]);
+      setOpenModalImport(false);
+      fetchUser();
+    } else {
+      notification.error({
+        description: res.message,
+        message: "Error",
+      });
+    }
+  };
   return (
     <Modal
       title="Import Modal"
       width={"50vw"}
       open={openModalImport}
       onOk={() => {
-        setOpenModalImport(false);
+        handleSubmit();
       }}
-      onCancel={() => setOpenModalImport(false)}
+      onCancel={() => {
+        setOpenModalImport(false);
+        setDataExcel([]);
+      }}
       okText={"Import"}
-      okButtonProps={{ disabled: true }}
+      okButtonProps={{ disabled: dataExcel.length < 1 }}
       maskClosable={false}
     >
       <Dragger {...propsUplaod}>
@@ -80,7 +107,8 @@ const UserImport = (props) => {
         <p className="ant-upload-text">
           Click or drag file to this area to upload
         </p>
-        <p className="ant-upload-hint">Support for a single upload.</p>
+        <p className="ant-upload-hint">Support for a single upload.
+        {/* &nbsp; <a onClick={(e)=> e.stopPropagation()} href={template} download>Download</a></p> */}
       </Dragger>
       <div style={{ paddingTop: 20 }}>
         <Table

@@ -88,49 +88,50 @@ const LayoutAdmin = () => {
   ];
 
   return (
-    <Layout style={{ minHeight: "100vh" }} className="layout-admin">
-      <Sider
-        theme="light"
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
-        <div style={{ height: 32, margin: 16, textAlign: "center" }}>Admin</div>
-        <Menu
-          defaultSelectedKeys={[activeMenu]}
-          mode="inline"
-          items={items}
-          onClick={(e) => setActiveMenu(e.key)}
-        />
-      </Sider>
-      <Layout>
-        <div className="admin-header">
-          <span>
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: "trigger",
-                onClick: () => setCollapsed(!collapsed),
-              }
-            )}
-          </span>
-          <Dropdown menu={{ items: itemsDropdown }} trigger={["click"]}>
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                Welcome {user?.fullName}
-                <DownOutlined />
-              </Space>
-            </a>
-          </Dropdown>
-        </div>
-        <Content>
-          <Outlet />
-        </Content>
-        <Footer style={{ padding: 0 }}>
-          React Test Fresher &copy; - Made with <HeartTwoTone />
-        </Footer>
+    <>
+      <Layout style={{ minHeight: "100vh" }} className="layout-admin">
+        <Sider
+          theme="light"
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+        >
+          <div style={{ height: 32, margin: 16, textAlign: "center" }}>
+            Admin
+          </div>
+          <Menu
+            defaultSelectedKeys={[activeMenu]}
+            mode="inline"
+            items={items}
+            onClick={(e) => setActiveMenu(e.key)}
+          />
+        </Sider>
+        <Layout>
+          <div className="admin-header">
+            <span>
+              {React.createElement(
+                collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                {
+                  className: "trigger",
+                  onClick: () => setCollapsed(!collapsed),
+                }
+              )}
+            </span>
+            <Dropdown menu={{ items: itemsDropdown }} trigger={["click"]}>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  Welcome {user?.fullName}
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          </div>
+          <Content>
+            <Outlet />
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </>
   );
 };
 
