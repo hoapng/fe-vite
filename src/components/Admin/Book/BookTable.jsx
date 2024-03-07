@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Row, Col, Button, Popconfirm, message } from "antd";
 import InputBookSearch from "./InputBookSearch";
-import { callFetchListBook } from "../../../services/api";
+import { callDeleteBook, callFetchListBook } from "../../../services/api";
 import {
   CloudUploadOutlined,
   DeleteTwoTone,
@@ -58,16 +58,16 @@ const BookTable = () => {
     setIsLoading(false);
   };
 
-  // const handleDeleteUser = async (_id) => {
-  //   const res = await callDeleteUser(_id);
-  //   console.log(res);
-  //   if (res && res.data) {
-  //     message.success("Thành công");
-  //     fetchBook();
-  //   } else {
-  //     notification.error({ message: "Lỗi", description: res.message });
-  //   }
-  // };
+  const handleDeleteBook = async (_id) => {
+    const res = await callDeleteBook(_id);
+    console.log(res);
+    if (res && res.data) {
+      message.success("Thành công");
+      fetchBook();
+    } else {
+      notification.error({ message: "Lỗi", description: res.message });
+    }
+  };
 
   const columns = [
     {
@@ -121,7 +121,7 @@ const BookTable = () => {
               placement="leftTop"
               title={"Confirm Delete"}
               description={`Sure??? ${record._id}`}
-              // onConfirm={() => handleDeleteUser(record._id)}
+              onConfirm={() => handleDeleteBook(record._id)}
             >
               <span style={{ cursor: "pointer", margin: "0 20px" }}>
                 <DeleteTwoTone twoToneColor="#ff4d4f" />
@@ -166,16 +166,16 @@ const BookTable = () => {
     setFilter(query);
   };
 
-  // const handleExportData = () => {
-  //   if (listBook.length > 0) {
-  //     const worksheet = XLSX.utils.json_to_sheet(listBook);
-  //     const workbook = XLSX.utils.book_new();
-  //     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-  //     //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
-  //     //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
-  //     XLSX.writeFile(workbook, "Export.xlsx");
-  //   }
-  // };
+  const handleExportData = () => {
+    if (listBook.length > 0) {
+      const worksheet = XLSX.utils.json_to_sheet(listBook);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+      //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+      XLSX.writeFile(workbook, "Export.xlsx");
+    }
+  };
 
   const renderHeader = () => {
     return (
@@ -190,15 +190,6 @@ const BookTable = () => {
             }}
           >
             Export
-          </Button>
-          <Button
-            icon={<CloudUploadOutlined />}
-            type="primary"
-            onClick={() => {
-              setOpenModalImport(true);
-            }}
-          >
-            Import
           </Button>
           <Button
             icon={<PlusOutlined />}
