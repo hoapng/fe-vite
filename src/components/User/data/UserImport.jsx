@@ -4,6 +4,7 @@ import { message, Modal, notification, Table, Upload } from "antd";
 import * as XLSX from "xlsx";
 import { json } from "react-router-dom";
 import { callBulkCreateUser } from "../../../services/api";
+import templateFile from "./template.xlsx?url";
 
 const { Dragger } = Upload;
 
@@ -107,8 +108,12 @@ const UserImport = (props) => {
         <p className="ant-upload-text">
           Click or drag file to this area to upload
         </p>
-        <p className="ant-upload-hint">Support for a single upload.
-        {/* &nbsp; <a onClick={(e)=> e.stopPropagation()} href={template} download>Download</a></p> */}
+        <p className="ant-upload-hint">
+          Support for a single upload. &nbsp;{" "}
+          <a onClick={(e) => e.stopPropagation()} href={templateFile} download>
+            Download
+          </a>
+        </p>
       </Dragger>
       <div style={{ paddingTop: 20 }}>
         <Table

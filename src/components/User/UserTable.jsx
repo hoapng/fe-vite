@@ -3,9 +3,15 @@ import { Table, Row, Col, Button } from "antd";
 import InputSearch from "./InputSearch";
 import { callFetchListUser } from "../../services/api";
 import UserViewDetail from "./UserViewDetail";
-import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  CloudUploadOutlined,
+  ExportOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import UserModalCreate from "./UserModalCreate";
 import UserImport from "./data/UserImport";
+import * as XLSX from "xlsx";
 
 // https://stackblitz.com/run?file=demo.tsx
 const UserTable = () => {
@@ -115,13 +121,33 @@ const UserTable = () => {
     setFilter(query);
   };
 
+  const handleExportData = () => {
+    if (listUser.length > 0) {
+      const worksheet = XLSX.utils.json_to_sheet(listUser);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+      //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+      XLSX.writeFile(workbook, "Export.xlsx");
+    }
+  };
+
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>List users</span>
         <span style={{ display: "flex", gap: 15 }}>
-          <Button>Export</Button>
           <Button
+            icon={<ExportOutlined />}
+            type="primary"
+            onClick={() => {
+              handleExportData();
+            }}
+          >
+            Export
+          </Button>
+          <Button
+            icon={<CloudUploadOutlined />}
             type="primary"
             onClick={() => {
               setOpenModalImport(true);
