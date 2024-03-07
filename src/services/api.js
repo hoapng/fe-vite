@@ -84,3 +84,26 @@ export const callCreateABook = (
     slider,
   });
 };
+
+export const callUpdateBook = (
+  _id,
+  mainText,
+  author,
+  price,
+  sold,
+  quantity,
+  category,
+  thumbnail,
+  slider
+) => {
+  return axios.put(`/api/v1/book/${_id}`, {
+    mainText,
+    author,
+    price,
+    sold,
+    quantity,
+    category,
+    thumbnail,
+    slider,
+  });
+};

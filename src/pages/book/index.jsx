@@ -1,4 +1,4 @@
-import BookTable from "../../components/Book/BookTable";
+import BookTable from "../../components/Admin/Book/BookTable";
 
 const BookPage = () => {
   return (

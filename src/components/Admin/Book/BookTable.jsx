@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Row, Col, Button, Popconfirm, message } from "antd";
 import InputBookSearch from "./InputBookSearch";
-import { callFetchListBook } from "../../services/api";
+import { callFetchListBook } from "../../../services/api";
 import {
   CloudUploadOutlined,
   DeleteTwoTone,
@@ -11,11 +11,10 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 
-// import UserImport from "./data/UserImport";
 import * as XLSX from "xlsx";
 import BookViewDetail from "./BookViewDetail";
 import BookModalCreate from "./BookModalCreate";
-// import UserModalUpdate from "./UserModalUpdate";
+import BookModalUpdate from "./BookModalUpadate";
 
 // https://stackblitz.com/run?file=demo.tsx
 const BookTable = () => {
@@ -132,10 +131,10 @@ const BookTable = () => {
             <EditTwoTone
               twoToneColor="#F57800"
               style={{ cursor: "pointer" }}
-              // onClick={() => {
-              //   setDataViewDetail(record);
-              //   setOpenModalUpdate(true);
-              // }}
+              onClick={() => {
+                setDataViewDetail(record);
+                setOpenModalUpdate(true);
+              }}
             />
           </>
         );
@@ -270,14 +269,14 @@ const BookTable = () => {
         fetchBook={fetchBook}
         openModalImport={openModalImport}
         setOpenModalImport={setOpenModalImport}
-      />
-      <UserModalUpdate
+      />*/}
+      <BookModalUpdate
         fetchBook={fetchBook}
         dataUpdate={dataViewDetail}
         setDataUpdate={setDataViewDetail}
         openModalUpdate={openModalUpdate}
         setOpenModalUpdate={setOpenModalUpdate}
-      /> */}
+      />
     </>
   );
 };
