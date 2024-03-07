@@ -10,10 +10,11 @@ import {
   PlusOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
-// import UserModalCreate from "./UserModalCreate";
+
 // import UserImport from "./data/UserImport";
 import * as XLSX from "xlsx";
 import BookViewDetail from "./BookViewDetail";
+import BookModalCreate from "./BookModalCreate";
 // import UserModalUpdate from "./UserModalUpdate";
 
 // https://stackblitz.com/run?file=demo.tsx
@@ -260,12 +261,12 @@ const BookTable = () => {
         dataViewDetail={dataViewDetail}
         setDataViewDetail={setDataViewDetail}
       />
-      {/* <UserModalCreate
+      <BookModalCreate
         fetchBook={fetchBook}
         openModalCreate={openModalCreate}
         setOpenModalCreate={setOpenModalCreate}
       />
-      <UserImport
+      {/* <UserImport
         fetchBook={fetchBook}
         openModalImport={openModalImport}
         setOpenModalImport={setOpenModalImport}
