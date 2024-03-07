@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Row, Col, Button, Popconfirm, message } from "antd";
-import InputSearch from "./InputSearch";
-import { callDeleteUser, callFetchListUser } from "../../services/api";
-import UserViewDetail from "./UserViewDetail";
+import InputBookSearch from "./InputBookSearch";
+import { callFetchListBook } from "../../services/api";
 import {
   CloudUploadOutlined,
   DeleteTwoTone,
@@ -11,14 +10,15 @@ import {
   PlusOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
-import UserModalCreate from "./UserModalCreate";
-import UserImport from "./data/UserImport";
+// import UserModalCreate from "./UserModalCreate";
+// import UserImport from "./data/UserImport";
 import * as XLSX from "xlsx";
-import UserModalUpdate from "./UserModalUpdate";
+import BookViewDetail from "./BookViewDetail";
+// import UserModalUpdate from "./UserModalUpdate";
 
 // https://stackblitz.com/run?file=demo.tsx
-const UserTable = () => {
-  const [listUser, setListUser] = useState([]);
+const BookTable = () => {
+  const [listBook, setListBook] = useState([]);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
@@ -26,7 +26,7 @@ const UserTable = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [filter, setFilter] = useState("");
-  const [sortQuery, setSortQuery] = useState("");
+  const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
 
   const [dataViewDetail, setDataViewDetail] = useState({});
   const [openViewDetail, setOpenViewDetail] = useState(false);
@@ -38,10 +38,10 @@ const UserTable = () => {
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
   useEffect(() => {
-    fetchUser();
+    fetchBook();
   }, [current, pageSize, filter, sortQuery]);
 
-  const fetchUser = async () => {
+  const fetchBook = async () => {
     setIsLoading(true);
     let query = `current=${current}&pageSize=${pageSize}`;
     if (filter) {
@@ -50,24 +50,24 @@ const UserTable = () => {
     if (sortQuery) {
       query += `&${sortQuery}`;
     }
-    const res = await callFetchListUser(query);
+    const res = await callFetchListBook(query);
     if (res && res.data) {
-      setListUser(res.data.result);
+      setListBook(res.data.result);
       setTotal(res.data.meta.total);
     }
     setIsLoading(false);
   };
 
-  const handleDeleteUser = async (_id) => {
-    const res = await callDeleteUser(_id);
-    console.log(res);
-    if (res && res.data) {
-      message.success("Thành công");
-      fetchUser();
-    } else {
-      notification.error({ message: "Lỗi", description: res.message });
-    }
-  };
+  // const handleDeleteUser = async (_id) => {
+  //   const res = await callDeleteUser(_id);
+  //   console.log(res);
+  //   if (res && res.data) {
+  //     message.success("Thành công");
+  //     fetchBook();
+  //   } else {
+  //     notification.error({ message: "Lỗi", description: res.message });
+  //   }
+  // };
 
   const columns = [
     {
@@ -88,18 +88,28 @@ const UserTable = () => {
       },
     },
     {
-      title: "fullName",
-      dataIndex: "fullName",
+      title: "mainText",
+      dataIndex: "mainText",
       sorter: true,
     },
     {
-      title: "email",
-      dataIndex: "email",
+      title: "author",
+      dataIndex: "author",
       sorter: true,
     },
     {
-      title: "phone",
-      dataIndex: "phone",
+      title: "price",
+      dataIndex: "price",
+      sorter: true,
+    },
+    {
+      title: "category",
+      dataIndex: "category",
+      sorter: true,
+    },
+    {
+      title: "createdAt",
+      dataIndex: "createdAt",
       sorter: true,
     },
     {
@@ -111,7 +121,7 @@ const UserTable = () => {
               placement="leftTop"
               title={"Confirm Delete"}
               description={`Sure??? ${record._id}`}
-              onConfirm={() => handleDeleteUser(record._id)}
+              // onConfirm={() => handleDeleteUser(record._id)}
             >
               <span style={{ cursor: "pointer", margin: "0 20px" }}>
                 <DeleteTwoTone twoToneColor="#ff4d4f" />
@@ -121,10 +131,10 @@ const UserTable = () => {
             <EditTwoTone
               twoToneColor="#F57800"
               style={{ cursor: "pointer" }}
-              onClick={() => {
-                setDataViewDetail(record);
-                setOpenModalUpdate(true);
-              }}
+              // onClick={() => {
+              //   setDataViewDetail(record);
+              //   setOpenModalUpdate(true);
+              // }}
             />
           </>
         );
@@ -156,21 +166,21 @@ const UserTable = () => {
     setFilter(query);
   };
 
-  const handleExportData = () => {
-    if (listUser.length > 0) {
-      const worksheet = XLSX.utils.json_to_sheet(listUser);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-      //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
-      //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
-      XLSX.writeFile(workbook, "Export.xlsx");
-    }
-  };
+  // const handleExportData = () => {
+  //   if (listBook.length > 0) {
+  //     const worksheet = XLSX.utils.json_to_sheet(listBook);
+  //     const workbook = XLSX.utils.book_new();
+  //     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  //     //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+  //     //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+  //     XLSX.writeFile(workbook, "Export.xlsx");
+  //   }
+  // };
 
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span>List users</span>
+        <span>List books</span>
         <span style={{ display: "flex", gap: 15 }}>
           <Button
             icon={<ExportOutlined />}
@@ -218,7 +228,7 @@ const UserTable = () => {
     <>
       <Row gutter={[20, 20]}>
         <Col span={24}>
-          <InputSearch handleSearch={handleSearch} setFilter={setFilter} />
+          <InputBookSearch handleSearch={handleSearch} setFilter={setFilter} />
         </Col>
         <Col span={24}>
           <Table
@@ -226,7 +236,7 @@ const UserTable = () => {
             loading={isLoading}
             className="def"
             columns={columns}
-            dataSource={listUser}
+            dataSource={listBook}
             onChange={onChange}
             pagination={{
               current: current,
@@ -244,31 +254,31 @@ const UserTable = () => {
           />
         </Col>
       </Row>
-      <UserViewDetail
+      <BookViewDetail
         openViewDetail={openViewDetail}
         setOpenViewDetail={setOpenViewDetail}
         dataViewDetail={dataViewDetail}
         setDataViewDetail={setDataViewDetail}
       />
-      <UserModalCreate
-        fetchUser={fetchUser}
+      {/* <UserModalCreate
+        fetchBook={fetchBook}
         openModalCreate={openModalCreate}
         setOpenModalCreate={setOpenModalCreate}
       />
       <UserImport
-        fetchUser={fetchUser}
+        fetchBook={fetchBook}
         openModalImport={openModalImport}
         setOpenModalImport={setOpenModalImport}
       />
       <UserModalUpdate
-        fetchUser={fetchUser}
+        fetchBook={fetchBook}
         dataUpdate={dataViewDetail}
         setDataUpdate={setDataViewDetail}
         openModalUpdate={openModalUpdate}
         setOpenModalUpdate={setOpenModalUpdate}
-      />
+      /> */}
     </>
   );
 };
 
-export default UserTable;
+export default BookTable;

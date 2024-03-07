@@ -1,9 +1,11 @@
+import BookTable from "../../components/Book/BookTable";
+
 const BookPage = () => {
-    return (
-        <>
-            book page
-        </>
-    )
-}
+  return (
+    <>
+      <BookTable />
+    </>
+  );
+};
 
 export default BookPage;
