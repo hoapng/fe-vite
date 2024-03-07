@@ -5,6 +5,7 @@ import { callFetchListUser } from "../../services/api";
 import UserViewDetail from "./UserViewDetail";
 import {
   CloudUploadOutlined,
+  EditTwoTone,
   ExportOutlined,
   PlusOutlined,
   ReloadOutlined,
@@ -12,6 +13,7 @@ import {
 import UserModalCreate from "./UserModalCreate";
 import UserImport from "./data/UserImport";
 import * as XLSX from "xlsx";
+import UserModalUpdate from "./UserModalUpdate";
 
 // https://stackblitz.com/run?file=demo.tsx
 const UserTable = () => {
@@ -31,6 +33,8 @@ const UserTable = () => {
   const [openModalCreate, setOpenModalCreate] = useState(false);
 
   const [openModalImport, setOpenModalImport] = useState(false);
+
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
   useEffect(() => {
     fetchUser();
@@ -91,6 +95,14 @@ const UserTable = () => {
         return (
           <>
             <button>Del</button>
+            <EditTwoTone
+              twoToneColor="#F57800"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setDataViewDetail(record);
+                setOpenModalUpdate(true);
+              }}
+            />
           </>
         );
       },
@@ -224,6 +236,13 @@ const UserTable = () => {
         fetchUser={fetchUser}
         openModalImport={openModalImport}
         setOpenModalImport={setOpenModalImport}
+      />
+      <UserModalUpdate
+        fetchUser={fetchUser}
+        dataUpdate={dataViewDetail}
+        setDataUpdate={setDataViewDetail}
+        openModalUpdate={openModalUpdate}
+        setOpenModalUpdate={setOpenModalUpdate}
       />
     </>
   );
