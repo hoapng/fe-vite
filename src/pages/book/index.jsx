@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import BookTable from "../../components/Admin/Book/BookTable";
+import ViewDetail from "../../components/Book/ViewDetail";
 
 const BookPage = () => {
   let location = useLocation();
@@ -8,7 +8,11 @@ const BookPage = () => {
   const id = params?.get("id");
 
   console.log("id", id);
-  return <>bookpage</>;
+  return (
+    <>
+      <ViewDetail />
+    </>
+  );
 };
 
 export default BookPage;
