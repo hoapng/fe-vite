@@ -60,7 +60,7 @@ const UserTable = () => {
 
   const handleDeleteUser = async (_id) => {
     const res = await callDeleteUser(_id);
-    console.log(res);
+    // console.log(res);
     if (res && res.data) {
       message.success("Thành công");
       fetchUser();
@@ -149,7 +149,7 @@ const UserTable = () => {
       setSortQuery(q);
     }
 
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const handleSearch = (query) => {

@@ -68,7 +68,7 @@ const UserImport = (props) => {
       item.password = "123456";
       return item;
     });
-    console.log(">>>data", data);
+    // console.log(">>>data", data);
     const res = await callBulkCreateUser(data);
     if (res.data) {
       notification.success({

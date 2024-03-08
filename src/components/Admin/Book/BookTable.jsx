@@ -60,7 +60,7 @@ const BookTable = () => {
 
   const handleDeleteBook = async (_id) => {
     const res = await callDeleteBook(_id);
-    console.log(res);
+    // console.log(res);
     if (res && res.data) {
       message.success("Thành công");
       fetchBook();
@@ -159,7 +159,7 @@ const BookTable = () => {
       setSortQuery(q);
     }
 
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const handleSearch = (query) => {

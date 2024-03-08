@@ -30,7 +30,7 @@ const Home = () => {
   const [form] = Form.useForm();
 
   const handleChangeFilter = (changedValues, values) => {
-    console.log(">>> check handleChangeFilter", changedValues, values);
+    // console.log(">>> check handleChangeFilter", changedValues, values);
     if (changedValues.category) {
       const cate = values.category;
       if (cate && cate.length > 0) {
@@ -121,7 +121,7 @@ const Home = () => {
     if (res && res.data) {
       setListBook(res.data.result);
       setTotal(res.data.meta.total);
-      console.log(listBook);
+      // console.log(listBook);
     }
     setIsLoading(false);
   };
