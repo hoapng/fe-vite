@@ -8,11 +8,7 @@ const BookPage = () => {
   const id = params?.get("id");
 
   console.log("id", id);
-  return (
-    <>
-      <BookTable />
-    </>
-  );
+  return <>bookpage</>;
 };
 
 export default BookPage;

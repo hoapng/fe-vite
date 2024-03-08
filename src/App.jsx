@@ -17,6 +17,7 @@ import AdminPage from "./pages/admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LayoutAdmin from "./components/Admin/LayoutAdmin";
 import "./styles/reset.scss";
+import BookTable from "./components/Admin/Book/BookTable";
 
 const Layout = () => {
   return (
@@ -86,7 +87,7 @@ export default function App() {
         },
         {
           path: "book",
-          element: <BookPage />,
+          element: <BookTable />,
         },
       ],
     },
