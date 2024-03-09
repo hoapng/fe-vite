@@ -9,7 +9,7 @@ import BookLoader from "./BookLoader";
 
 const ViewDetail = (props) => {
   const { dataBook } = props;
-  console.log(dataBook);
+  // console.log(dataBook);
   const [isOpenModalGallery, setIsOpenModalGallery] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 

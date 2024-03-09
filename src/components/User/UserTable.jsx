@@ -20,7 +20,7 @@ import UserModalUpdate from "./UserModalUpdate";
 const UserTable = () => {
   const [listUser, setListUser] = useState([]);
   const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(2);
   const [total, setTotal] = useState(0);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -153,6 +153,7 @@ const UserTable = () => {
   };
 
   const handleSearch = (query) => {
+    setCurrent(1);
     setFilter(query);
   };
 
