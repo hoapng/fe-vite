@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { message } from "antd";
 
 const initialState = {
   carts: [],
@@ -31,6 +32,7 @@ export const orderSlice = createSlice({
       }
       //update redux
       state.carts = carts;
+      message.success("Add successly");
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
