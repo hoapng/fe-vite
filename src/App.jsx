@@ -20,6 +20,7 @@ import "./styles/reset.scss";
 import "./styles/global.scss";
 import BookTable from "./components/Admin/Book/BookTable";
 import ViewOrder from "./components/Order/ViewOrder";
+import OrderPage from "./pages/order";
 
 const Layout = () => {
   return (
@@ -69,7 +70,7 @@ export default function App() {
         },
         {
           path: "/order",
-          element: <ViewOrder />,
+          element: <OrderPage />,
         },
       ],
     },
