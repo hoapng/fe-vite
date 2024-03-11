@@ -119,3 +119,33 @@ export const callFetchBookById = (_id) => {
 export const callPlaceOrder = (data) => {
   return axios.post("/api/v1/order", { ...data });
 };
+
+export const callHistory = () => {
+  return axios.get(`/api/v1/history`);
+};
+
+export const callUpdateAvatar = (fileImg) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", fileImg);
+  return axios({
+    method: "post",
+    url: "/api/v1/file/upload",
+    data: bodyFormData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "upload-type": "avatar",
+    },
+  });
+};
+
+export const callUpdateUserInfo = (_id, phone, fullName, avatar) => {
+  return axios.put("/api/v1/user", { _id, phone, fullName, avatar });
+};
+
+export const callUpdatePassword = (email, oldpass, newpass) => {
+  return axios.post("/api/v1/user/change-password", {
+    email,
+    oldpass,
+    newpass,
+  });
+};

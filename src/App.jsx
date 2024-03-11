@@ -21,6 +21,7 @@ import "./styles/global.scss";
 import BookTable from "./components/Admin/Book/BookTable";
 import ViewOrder from "./components/Order/ViewOrder";
 import OrderPage from "./pages/order";
+import HistoryPage from "./pages/history";
 
 const Layout = () => {
   return (
@@ -71,6 +72,10 @@ export default function App() {
         {
           path: "/order",
           element: <OrderPage />,
+        },
+        {
+          path: "/history",
+          element: <HistoryPage />,
         },
       ],
     },

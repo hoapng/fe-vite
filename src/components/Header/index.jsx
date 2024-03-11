@@ -11,6 +11,7 @@ import { callLogout } from "../../services/api";
 import "./header.scss";
 import { doLogoutAction } from "../../redux/account/accountSlice";
 import { Link } from "react-router-dom";
+import ManageAccount from "../Account/ManageAccount";
 
 const Header = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -19,6 +20,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const carts = useSelector((state) => state.order.carts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLogout = async () => {
     const res = await callLogout();
@@ -31,8 +33,25 @@ const Header = () => {
 
   let items = [
     {
-      label: <label style={{ cursor: "pointer" }}>Quản lý tài khoản</label>,
+      label: (
+        <label
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          Quản lý tài khoản
+        </label>
+      ),
       key: "account",
+    },
+    {
+      label: (
+        <Link style={{ cursor: "pointer" }} to="/history">
+          History
+        </Link>
+      ),
+      key: "history",
     },
     {
       label: (
@@ -158,6 +177,10 @@ const Header = () => {
         <p>Đăng xuất</p>
         <Divider />
       </Drawer>
+      <ManageAccount
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </>
   );
 };
