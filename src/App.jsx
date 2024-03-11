@@ -22,12 +22,14 @@ import BookTable from "./components/Admin/Book/BookTable";
 import ViewOrder from "./components/Order/ViewOrder";
 import OrderPage from "./pages/order";
 import HistoryPage from "./pages/history";
+import OrderTable from "./components/Admin/OrderTable";
 
 const Layout = () => {
+  const [searchTerm, setSearchTerm] = useState("");
   return (
     <div className="layout-app">
-      <Header />
-      <Outlet />
+      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <Outlet context={[searchTerm, setSearchTerm]} />
       {/* <Footer /> */}
     </div>
   );
@@ -71,11 +73,19 @@ export default function App() {
         },
         {
           path: "/order",
-          element: <OrderPage />,
+          element: (
+            <ProtectedRoute>
+              <OrderPage />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/history",
-          element: <HistoryPage />,
+          element: (
+            <ProtectedRoute>
+              <HistoryPage />
+            </ProtectedRoute>
+          ),
         },
       ],
     },
@@ -100,6 +110,10 @@ export default function App() {
         {
           path: "book",
           element: <BookTable />,
+        },
+        {
+          path: "order",
+          element: <OrderTable />,
         },
       ],
     },

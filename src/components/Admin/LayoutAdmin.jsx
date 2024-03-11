@@ -100,7 +100,7 @@ const LayoutAdmin = () => {
             Admin
           </div>
           <Menu
-            defaultSelectedKeys={[activeMenu]}
+            selectedKeys={[activeMenu]}
             mode="inline"
             items={items}
             onClick={(e) => setActiveMenu(e.key)}

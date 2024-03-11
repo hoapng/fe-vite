@@ -13,7 +13,7 @@ import { doLogoutAction } from "../../redux/account/accountSlice";
 import { Link } from "react-router-dom";
 import ManageAccount from "../Account/ManageAccount";
 
-const Header = () => {
+const Header = (props) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const isAuthenticated = useSelector((state) => state.account.isAuthenticated);
   const user = useSelector((state) => state.account.user);
@@ -121,6 +121,7 @@ const Header = () => {
                 <VscSearchFuzzy className="icon-search" />
               </span>
               <input
+                onChange={(e) => props.setSearchTerm(e.target.value)}
                 className="input-search"
                 type={"text"}
                 placeholder="Bạn tìm gì hôm nay"

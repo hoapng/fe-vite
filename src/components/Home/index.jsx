@@ -13,7 +13,7 @@ import {
   Spin,
 } from "antd";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { callFetchCategory, callFetchListBook } from "../../services/api";
 import "./home.scss";
 const Home = () => {
@@ -31,6 +31,8 @@ const Home = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
+  const [searchTerm, setSearchTerm] = useOutletContext();
+
   useEffect(() => {
     const initCategory = async () => {
       const res = await callFetchCategory();
@@ -46,7 +48,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchBook();
-  }, [current, pageSize, filter, sortQuery]);
+  }, [current, pageSize, filter, sortQuery, searchTerm]);
 
   const fetchBook = async () => {
     setIsLoading(true);
@@ -56,6 +58,9 @@ const Home = () => {
     }
     if (sortQuery) {
       query += `&${sortQuery}`;
+    }
+    if (searchTerm) {
+      query += `&mainText=/${searchTerm}/i`;
     }
 
     const res = await callFetchListBook(query);
@@ -198,6 +203,7 @@ const Home = () => {
                   onClick={() => {
                     form.resetFields();
                     setFilter("");
+                    setSearchTerm("");
                   }}
                 />
               </div>
